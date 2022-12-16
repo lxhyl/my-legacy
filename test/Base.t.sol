@@ -5,11 +5,12 @@ import "forge-std/Test.sol";
 import "forge-std/console.sol";
 
 import {LegacyProxy} from "../src/LegacyProxy.sol";
-
+import {Legacy} from "../src/Legacy.sol";
+import {ILegacy} from "../src/Interfaces/ILegacy.sol";
 contract Base is Test {
-    LegacyProxy legacyProxy;
+    address payable legacyProxy;
 
     function setUp() external {
-        legacyProxy = new LegacyProxy();
+        legacyProxy = payable(address(new LegacyProxy(address(new Legacy()))));
     }
 }

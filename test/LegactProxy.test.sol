@@ -4,27 +4,22 @@ pragma solidity ^0.8.13;
 import "forge-std/console.sol";
 
 import {Base} from "./Base.t.sol";
-
-contract Implementation1 {
-    function getData() external pure returns (uint256) {
-        return 1;
+import {ILegacy} from "../src/Interfaces/ILegacy.sol";
+import {LegacyProxy} from "../src/LegacyProxy.sol";
+contract LegacyV2 is ILegacy {
+    function  getVersion() external pure returns(uint256){
+      return 2;
     }
 }
 
-contract Implementation2 {
-    function getData() external pure returns (uint256) {
-        return 2;
-    }
-}
 
 contract LegacyProxyTest is Base {
     function testUpgradeLegacy() public {
-        Implementation1 implementation1 = new Implementation1();
-        Implementation2 implementation2 = new Implementation2();
-        legacyProxy.upgradeLegacy(address(implementation1));
-        console.log("1", Implementation2(address(legacyProxy)).getData());
-
-        legacyProxy.upgradeLegacy(address(implementation2));
-        console.log("2", Implementation2(address(legacyProxy)).getData());
+        vm.prank(address(0));
+        console.log("1", ILegacy(legacyProxy).getVersion());
+        vm.prank(address(this));
+        LegacyProxy(payable(legacyProxy)).upgradeTo(address(new LegacyV2()));
+        vm.prank(address(0));
+        console.log("2", ILegacy(address(legacyProxy)).getVersion());
     }
 }
