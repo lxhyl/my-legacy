@@ -6,7 +6,7 @@ import {IERC20} from "openzeppelin-contracts/interfaces/IERC20.sol";
 contract Legacy is ILegacy {
     using EnumerableSet for EnumerableSet.AddressSet;
     
-    uint16 public constant version = 1;
+    uint16 public constant version = 2;
     
     mapping(address => LegacyData) legacyDatas;
     function writeCoinsWills(address beneficiary, uint256 executableWillsDelay, address[] calldata coins) external {
@@ -37,5 +37,5 @@ contract Legacy is ILegacy {
     function isApprovedMax(address coin,address owner) public view returns(bool) {
        if(coin == address(0)) return false;
        return IERC20(coin).allowance(owner,address(this)) == type(uint256).max;
-    }   
+    }
 }
