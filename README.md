@@ -16,8 +16,10 @@ test contract deploy on https://goerli.etherscan.io/address/0x94022093264fad8f5c
 
 ### Deploy
 
-`forge script script/deploy.s.sol:MyLegacy --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv`
+- `source .env`
+- `forge script script/deploy.s.sol:MyLegacy --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv`
 
 ### Upgrade
 
-`forge script script/upgrade.s.sol:MyLegacyUpgrade --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv`
+- `source .env`
+- `forge script script/upgrade.s.sol:MyLegacyUpgrade --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv`
