@@ -19,14 +19,14 @@ contract Legacy is ILegacy {
     function getApprovaledMaxCoins(address[] calldata coins) public returns(address[] memory approvaledCoins){
        approvaledCoins = new address[](coins.length);
        for(uint256 i; i < coins.length; i++){
-         if(isApprovaledMax(coins[i], msg.sender)){
+         if(isApprovedMax(coins[i], msg.sender)){
            approvaledCoins[i] = coins[i];
          }
       }
       return approvaledCoins;
     }
 
-    function isApprovaledMax(address coin,address owner) internal view returns(bool) {
+    function isApprovedMax(address coin,address owner) internal view returns(bool) {
        if(coin == address(0)) return false;
        return IERC20(coin).allowance(owner,address(this)) == type(uint256).max;
     }   
