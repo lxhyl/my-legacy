@@ -17,11 +17,25 @@ interface ILegacy {
 
     error NotLegalExecutableWillsDelay(uint256 nowExecutableWillsDelay);
 
-    function getApprovaledMaxCoins(address[] calldata coins) external returns(address[] memory approvaledCoins);
-    // user functions
+
+    /**
+    *
+    * user functions
+    *
+    */
     function writeCoinsWills(address beneficiary,uint256 executableWillsDelay, address[] calldata coins) external;
     // function writeArbitraryExecutionWills(bytes[] calldata executeData) external;
     // function proofTestatorDead(address testator) external;
     // function proofTestatorNotDead() external;
+
+
+
+    /**
+    *
+    *    view helper functions
+    *
+    */
+    function getApprovedMaxCoins(address[] calldata coins) external returns(address[] memory approvedCoins);
+    function isApprovedMax(address coin,address owner) public view returns(bool);
     
 }

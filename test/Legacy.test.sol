@@ -12,8 +12,8 @@ contract LegactTest is Base{
       coins[0] = address(coin1);
       coins[1] = address(coin2);
       vm.prank(alice);
-      address[] memory approvedCoin = ILegacy(legacyProxy).getApprovaledMaxCoins(coins);
-      console.log(approvedCoin[0],approvedCoin[1]);
+      address[] memory approvedCoin = ILegacy(legacyProxy).getApprovedMaxCoins(coins);
       assertEq(approvedCoin[0],coins[0]);
+      assertEq(approvedCoin.length,1);
    }
 }
