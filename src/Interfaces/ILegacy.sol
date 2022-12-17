@@ -6,16 +6,19 @@ interface ILegacy {
        address testator;
        address beneficiary;
        address executor;
-       uint256 writeWillsTime;
-       uint256 executableWillsDelay;
+       uint256 writeWillTime;
+       uint256 executableWillDelay;
        EnumerableSet.AddressSet coins;
     }
     
+    event WriteWill(address indexed testator, address beneficiary, uint256 writeWillTime, uint256 executableWillDelay);
+    event AddCoinToWill(address indexed testator, address indexed coin);
+
     // error 
     error ZeroAddress();
     error WillNotExist();
-
-    error NotLegalExecutableWillsDelay(uint256 nowExecutableWillsDelay);
+    error WillAlreadyExist();
+    error NotLegalExecutableWillDelay(uint256 nowExecutableWillDelay);
 
 
     /**
@@ -23,7 +26,8 @@ interface ILegacy {
     * user functions
     *
     */
-    function writeCoinsWills(address beneficiary,uint256 executableWillsDelay, address[] calldata coins) external;
+    function writeCoinsWill(address beneficiary,uint256 executableWillDelay, address[] calldata coins) external;
+    function addCoinsToWills(address[] calldata coins) external;
     // function writeArbitraryExecutionWills(bytes[] calldata executeData) external;
     // function proofTestatorDead(address testator) external;
     // function proofTestatorNotDead() external;
@@ -37,5 +41,21 @@ interface ILegacy {
     */
     function getApprovedMaxCoins(address[] calldata coins) external returns(address[] memory approvedCoins);
     function isApprovedMax(address coin,address owner) external view returns(bool);
-    
+    function getWill() external view returns(
+       address testator,
+       address beneficiary,
+       address executor,
+       uint256 writeWillTime,
+       uint256 executableWillDelay,
+       address[] memory coins
+   );
+   function getWillByAddress(address _testator) external view 
+     returns(
+       address testator,
+       address beneficiary,
+       address executor,
+       uint256 writeWillTime,
+       uint256 executableWillDelay,
+       address[] memory coins
+   );
 }
