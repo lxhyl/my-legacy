@@ -36,6 +36,6 @@ interface ILegacy {
     *
     */
     function getApprovedMaxCoins(address[] calldata coins) external returns(address[] memory approvedCoins);
-    function isApprovedMax(address coin,address owner) public view returns(bool);
+    function isApprovedMax(address coin,address owner) external view returns(bool);
     
 }
