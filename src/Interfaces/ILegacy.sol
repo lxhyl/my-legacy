@@ -6,32 +6,45 @@ interface ILegacy {
        address testator;
        address beneficiary;
        address executor;
-       uint256 writeWillTime;
+       uint256 lastActiveTime;
        uint256 executableWillDelay;
+       uint256 executeSubmitTime;
+       uint256 executeTime;
        EnumerableSet.AddressSet coins;
     }
     
-    event WriteWill(address indexed testator, address beneficiary, uint256 writeWillTime, uint256 executableWillDelay);
+    event WriteWill(address indexed testator, address beneficiary, uint256 lastActiveTime, uint256 executableWillDelay);
     event AddCoinToWill(address indexed testator, address indexed coin);
+    event ProofTestatorDead(address indexed testator, address submitor);
+    event ProofTestatorNotDead(address indexed testator);
+    event ExecuteCoinSuccess(address indexed testator, address coin);
+    event ExecuteCoinFail(address indexed testator, address coin);
 
     // error 
     error ZeroAddress();
     error WillNotExist();
     error WillAlreadyExist();
+    error NotLegalETHAmount(uint256 nowAmount);
     error NotLegalExecutableWillDelay(uint256 nowExecutableWillDelay);
-
-
+    error NotYetSubmitableWill();
+    error NotYetExecuteableWill();
+    error WillExecuteAlreadySubmit();
+    error WillAlreadyExecute();
+    error WillAlreadyExecutable();
+    error NotExecutor();
+    error NotApproveMax(address coin);
+    error OnlyLegacy();
     /**
     *
     * user functions
     *
     */
     function writeCoinsWill(address beneficiary,uint256 executableWillDelay, address[] calldata coins) external;
-    function addCoinsToWills(address[] calldata coins) external;
+    function addCoinsToWill(address[] calldata coins) external;
     // function writeArbitraryExecutionWills(bytes[] calldata executeData) external;
-    // function proofTestatorDead(address testator) external;
-    // function proofTestatorNotDead() external;
-
+    function proofTestatorDead(address testator) payable external;
+    function proofTestatorNotDead() external;
+    function executeCoinsWill(address testator) external;
 
 
     /**
