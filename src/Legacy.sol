@@ -45,7 +45,7 @@ contract Legacy is ILegacy {
       LegacyData storage legacyData = legacyDatas[testator];
 
       if(legacyData.testator != testator) revert WillNotExist();
-      if(legacyData.lastActiveTime + legacyData.executableWillDelay <= block.timestamp) revert NotYetSubmitableWill();
+      if(legacyData.lastActiveTime + legacyData.executableWillDelay >= block.timestamp) revert NotYetSubmitableWill();
       if(legacyData.executor != address(0)) revert WillExecuteAlreadySubmit();
 
       legacyData.executor = msg.sender;
@@ -81,6 +81,7 @@ contract Legacy is ILegacy {
             emit ExecuteCoinFail(testator, coin);
          }
       }
+      Address.sendValue(payable(msg.sender), 1 ether);
    }
 
    function sendCoinToBeneficiaryExecutor(address coin,address testator, address beneficiary,address executor) public {
