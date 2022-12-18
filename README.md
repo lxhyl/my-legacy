@@ -27,4 +27,4 @@ test contract deploy on https://goerli.etherscan.io/address/0x94022093264fad8f5c
 
 ### Verify
 
-- `forge verify-contract --chain-id <ChainId>  <ContractPath>:<ContractName>`
+- `forge verify-contract --chain-id <ChainId> <Address> <ContractPath>:<ContractName>`
