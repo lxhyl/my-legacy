@@ -129,7 +129,7 @@ contract Legacy is ILegacy {
       uint256 executeTime,
       address[] memory coins
    )  {
-      return getWillByAddress(msg.sender);
+      return getWillByTestator(msg.sender);
    }
 
    function getWillByTestator(address _testator) public view 
