@@ -55,20 +55,24 @@ interface ILegacy {
     function getApprovedMaxCoins(address[] calldata coins) external returns(address[] memory approvedCoins);
     function isApprovedMax(address coin,address owner) external view returns(bool);
     function getWill() external view returns(
-       address testator,
-       address beneficiary,
-       address executor,
-       uint256 writeWillTime,
-       uint256 executableWillDelay,
-       address[] memory coins
+      address testator,
+      address beneficiary,
+      address executor,
+      uint256 writeWillTime,
+      uint256 executableWillDelay,
+      uint256 executeSubmitTime,
+      uint256 executeTime,
+      address[] memory coins
    );
    function getWillByAddress(address _testator) external view 
      returns(
-       address testator,
-       address beneficiary,
-       address executor,
-       uint256 writeWillTime,
-       uint256 executableWillDelay,
-       address[] memory coins
+      address testator,
+      address beneficiary,
+      address executor,
+      uint256 writeWillTime,
+      uint256 executableWillDelay,
+      uint256 executeSubmitTime,
+      uint256 executeTime,
+      address[] memory coins
    );
 }

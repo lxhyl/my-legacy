@@ -71,8 +71,11 @@ contract Legacy is ILegacy {
       if(testator == address(0)) revert ZeroAddress();
       LegacyData storage legacyData = legacyDatas[testator];
       if(legacyData.executor != msg.sender) revert NotExecutor();
-      if(legacyData.lastActiveTime + legacyData.executableWillDelay + 4 weeks <= block.timestamp) revert NotYetExecuteableWill(); 
-   
+      if(legacyData.executeTime != 0) revert WillAlreadyExecute();
+      if(legacyData.lastActiveTime + legacyData.executableWillDelay + 4 weeks > block.timestamp) revert NotYetExecuteableWill(); 
+      if(legacyData.executeTime != 0) revert WillAlreadyExecute();
+
+      legacyData.executeTime = block.timestamp;
       for(uint256 i; i < legacyData.coins.length(); i++){
          address coin = legacyData.coins.at(i);
          try this.sendCoinToBeneficiaryExecutor(coin,testator,legacyData.beneficiary,msg.sender) {
@@ -82,6 +85,7 @@ contract Legacy is ILegacy {
          }
       }
       Address.sendValue(payable(msg.sender), 1 ether);
+
    }
 
    function sendCoinToBeneficiaryExecutor(address coin,address testator, address beneficiary,address executor) public {
@@ -116,24 +120,28 @@ contract Legacy is ILegacy {
    }
     
    function getWill() external view returns(
-       address testator,
-       address beneficiary,
-       address executor,
-       uint256 lastActiveTime,
-       uint256 executableWillDelay,
-       address[] memory coins
+      address testator,
+      address beneficiary,
+      address executor,
+      uint256 lastActiveTime,
+      uint256 executableWillDelay,
+      uint256 executeSubmitTime,
+      uint256 executeTime,
+      address[] memory coins
    )  {
       return getWillByAddress(msg.sender);
    }
 
    function getWillByAddress(address _testator) public view 
      returns(
-       address testator,
-       address beneficiary,
-       address executor,
-       uint256 lastActiveTime,
-       uint256 executableWillDelay,
-       address[] memory coins
+      address testator,
+      address beneficiary,
+      address executor,
+      uint256 lastActiveTime,
+      uint256 executableWillDelay,
+      uint256 executeSubmitTime,
+      uint256 executeTime,
+      address[] memory coins
    ) {
       LegacyData storage legacyData = legacyDatas[_testator];
       testator = legacyData.testator;
@@ -141,6 +149,8 @@ contract Legacy is ILegacy {
       executor = legacyData.executor;
       lastActiveTime = legacyData.lastActiveTime;
       executableWillDelay = legacyData.executableWillDelay;
+      executeSubmitTime = legacyData.executeSubmitTime;
+      executeTime = legacyData.executeTime;
       coins = legacyData.coins.values();
    }
 }
