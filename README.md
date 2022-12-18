@@ -23,3 +23,8 @@ test contract deploy on https://goerli.etherscan.io/address/0x94022093264fad8f5c
 
 - `source .env`
 - `forge script script/upgrade.s.sol:MyLegacyUpgrade --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv`
+
+
+### Verify
+
+- `forge verify-contract --chain-id <ChainId>  <ContractPath>:<ContractName>`
