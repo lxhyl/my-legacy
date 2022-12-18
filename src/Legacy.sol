@@ -132,7 +132,7 @@ contract Legacy is ILegacy {
       return getWillByAddress(msg.sender);
    }
 
-   function getWillByAddress(address _testator) public view 
+   function getWillByTestator(address _testator) public view 
      returns(
       address testator,
       address beneficiary,

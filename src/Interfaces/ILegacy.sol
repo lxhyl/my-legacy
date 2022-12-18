@@ -64,7 +64,7 @@ interface ILegacy {
       uint256 executeTime,
       address[] memory coins
    );
-   function getWillByAddress(address _testator) external view 
+   function getWillByTestator(address _testator) external view 
      returns(
       address testator,
       address beneficiary,
