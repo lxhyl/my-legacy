@@ -16,35 +16,8 @@ contract LegactTest is Base{
       assertEq(approvedCoin.length,1);
    }
 
-   function testWriteCoinsWill() public {
-      vm.startPrank(alice);
-      coin1.approve(legacyProxy, type(uint256).max);
-
-      address testator = alice;
-      address beneficiary = bob;
-      uint256 executableWillDelay = 26 weeks;
-      address[] memory coins = new address[](2);
-      coins[0] = address(coin1);
-      coins[1] = address(coin2);
-      ILegacy(legacyProxy).writeCoinsWill(beneficiary, executableWillDelay, coins);
-      (
-       address _testator,
-       address _beneficiary,
-       address _executor,
-       uint256 _writeWillTime,
-       uint256 _executableWillDelay,
-       address[] memory _coins
-      ) = ILegacy(legacyProxy).getWill();
-      
-      assertEq(testator, _testator);
-      assertEq(beneficiary, _beneficiary);
-      assertEq(executableWillDelay, _executableWillDelay);
-      assertEq(coins[0], address(coin1));
-      console.log("_writeWillTime",_writeWillTime);
-   }
-
    function testProofNotDead() public {
-      skip(block.timestamp + 27 weeks);
+      skip(27 weeks);
       bob.call{value:1 ether}("");
       vm.startPrank(bob);
       ILegacy(legacyProxy).proofTestatorDead{value:1 ether}(alice);
@@ -58,15 +31,23 @@ contract LegactTest is Base{
    }
    
    function testExcuteWill() public {
-      skip(block.timestamp + 27 weeks);
+      skip(block.timestamp + 26 weeks);
+      
       bob.call{value:1 ether}("");
       vm.startPrank(bob);
       ILegacy(legacyProxy).proofTestatorDead{value:1 ether}(alice);
       
-      skip(4 weeks);
+      skip(5 weeks);
+      
+      uint256 bobETHBalanceBefore = bob.balance;
+      uint256 bobBalanceBefore = coin1.balanceOf(bob);
+      uint256 carlBalanceBefore = coin1.balanceOf(carl);
+   
       ILegacy(legacyProxy).executeCoinsWill(alice);
-      assertEq(bob.balance, 1 ether);
-      assertEq(coin1.balanceOf(carl), 999);
-      assertEq(coin1.balanceOf(bob),1);
+      
+      assertEq(bob.balance, bobETHBalanceBefore + 1 ether);
+      assertEq(coin1.balanceOf(bob), 10 + bobBalanceBefore);
+      assertEq(coin1.balanceOf(carl), 990 + carlBalanceBefore);
+    
    }
 }

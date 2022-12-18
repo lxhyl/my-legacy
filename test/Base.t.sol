@@ -32,6 +32,7 @@ contract Base is Test {
 
         // alice create will. With coin1;
         vm.startPrank(alice);
+        vm.warp(1);
         coin1.approve(legacyProxy, type(uint256).max);
         address testator = alice;
         address beneficiary = carl;
