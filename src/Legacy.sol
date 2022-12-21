@@ -12,6 +12,9 @@ contract Legacy is ILegacy {
    
    mapping(address => LegacyData) legacyDatas;
 
+
+
+
    function writeCoinsWill(address beneficiary, uint256 executableWillDelay, address[] calldata coins) external {
       if(beneficiary == address(0)) revert ZeroAddress();
       if(executableWillDelay < 10 weeks || executableWillDelay > 52 weeks) revert NotLegalExecutableWillDelay(executableWillDelay);
@@ -26,7 +29,7 @@ contract Legacy is ILegacy {
    }
 
 
-   function addCoinsToWill(address[] calldata coins) public {
+   function addCoinsToWill(address[] calldata coins)  public {
       LegacyData storage legacyData = legacyDatas[msg.sender];
       if(legacyData.testator == address(0)) revert WillNotExist();
       for(uint256 i; i < coins.length; i++){
@@ -52,7 +55,7 @@ contract Legacy is ILegacy {
       legacyData.executeSubmitTime = block.timestamp;
    } 
 
-   function proofTestatorNotDead() external {
+   function proofTestatorNotDead() payable external {
       LegacyData storage legacyData = legacyDatas[msg.sender];
       if(legacyData.testator == address(0)) revert WillNotExist();
       if(legacyData.executeTime != 0) revert WillAlreadyExecute();

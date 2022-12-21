@@ -43,7 +43,7 @@ interface ILegacy {
     function addCoinsToWill(address[] calldata coins) external;
     // function writeArbitraryExecutionWills(bytes[] calldata executeData) external;
     function proofTestatorDead(address testator) payable external;
-    function proofTestatorNotDead() external;
+    function proofTestatorNotDead() payable external;
     function executeCoinsWill(address testator) external;
 
 
