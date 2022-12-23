@@ -31,7 +31,7 @@ contract LegactTest is Base{
    }
    
    function testExcuteWill() public {
-      skip(block.timestamp + 26 weeks);
+      skip(26 weeks + 1);
       
       bob.call{value:1 ether}("");
       vm.startPrank(bob);
