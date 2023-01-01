@@ -8,17 +8,18 @@ import {Base} from "./Base.t.sol";
 import {ILegacy} from "../src/Interfaces/ILegacy.sol";
 import {Legacy} from "../src/Legacy.sol";
 import {LegacyProxy} from "../src/LegacyProxy.sol";
+import {ILegacyProxy} from "../src/Interfaces/ILegacyProxy.sol";
 contract LegacyProxyTest is Base {
    function testUpgradeLegacy() public {
     
       vm.prank(alice);
-      Legacy(legacyProxy).version();
+      console.log("version",ILegacyProxy(legacyProxy).version());
       ILegacy legacyV2 = new Legacy();
 
       vm.prank(address(this));
-      LegacyProxy(legacyProxy).upgradeTo(address(legacyV2));
+      ILegacyProxy(legacyProxy).upgrade(address(legacyV2));
 
       vm.prank(alice);
-      Legacy(legacyProxy).version();
+      console.log("version",ILegacyProxy(legacyProxy).version());
    }
 }

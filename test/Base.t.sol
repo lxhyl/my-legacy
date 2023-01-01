@@ -5,6 +5,7 @@ import "forge-std/Test.sol";
 import "forge-std/console.sol";
 
 import {LegacyProxy} from "../src/LegacyProxy.sol";
+import {ILegacyProxy} from "../src/Interfaces/ILegacyProxy.sol";
 import {Legacy} from "../src/Legacy.sol";
 import {ILegacy} from "../src/Interfaces/ILegacy.sol";
 import {MockERC20} from "./Mock/ERC20.sol";
