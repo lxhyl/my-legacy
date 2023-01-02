@@ -10,8 +10,8 @@ contract LegacyProxy is ILegacyProxy,TransparentUpgradeableProxy {
     
     // version => implementation address
     mapping(uint256 => address) public override historyImplementation;
-    constructor(address implementationInit)
-        TransparentUpgradeableProxy(implementationInit, msg.sender, "")
+    constructor(address implementationInit,bytes memory initCallData)
+        TransparentUpgradeableProxy(implementationInit, msg.sender, initCallData)
     {
        historyImplementation[version] = implementationInit;
     }

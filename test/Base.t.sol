@@ -23,7 +23,10 @@ contract Base is Test {
         bob = vm.addr(2);
         carl = vm.addr(3);
 
-        legacyProxy = payable(address(new LegacyProxy(address(new Legacy()))));
+        bytes memory initCalldata = abi.encodeWithSelector(Legacy.init.selector, address(0x366858498Eb1834b4a194B7d1454a92B28c6bf7e), 4 weeks, 520 weeks, 4 weeks);
+        legacyProxy = payable(address(new LegacyProxy(address(new Legacy()), initCalldata)));
+
+
         coin1 = new MockERC20("coin1","coin1");
         coin1.mint(alice,1000);
         coin1.mint(bob,3333);
