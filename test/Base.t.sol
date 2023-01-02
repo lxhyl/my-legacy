@@ -35,7 +35,6 @@ contract Base is Test {
         vm.startPrank(alice);
         vm.warp(1);
         coin1.approve(legacyProxy, type(uint256).max);
-        address testator = alice;
         address beneficiary = carl;
         uint256 executableWillDelay = 26 weeks;
         address[] memory coins = new address[](2);

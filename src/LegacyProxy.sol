@@ -6,13 +6,27 @@ import {TransparentUpgradeableProxy} from "openzeppelin-contracts/proxy/transpar
 
 import {ILegacyProxy} from "./Interfaces/ILegacyProxy.sol";
 contract LegacyProxy is ILegacyProxy,TransparentUpgradeableProxy {
-    uint16 public override version  = 1;
-    constructor(address _implemntation)
-        TransparentUpgradeableProxy(_implemntation, msg.sender, "")
-    {}
-    function upgrade(address newImplementation) external ifAdmin {
-        if(newImplementation == address(0) || newImplementation.code.length == 0) revert ImplementationNotLegal(newImplementation);
-        _upgradeToAndCall(newImplementation, bytes(""), false);
+    uint256 public override version  = 1;
+    
+    // version => implementation address
+    mapping(uint256 => address) public override historyImplementation;
+    constructor(address implementationInit)
+        TransparentUpgradeableProxy(implementationInit, msg.sender, "")
+    {
+       historyImplementation[version] = implementationInit;
+    }
+    function upgrade(address newImplementation) public ifAdmin {
         version++;
+        historyImplementation[version] = newImplementation;
+        _upgradeToAndCall(newImplementation, bytes(""), false);
+    }
+
+    function rollback() external {
+      backToVersion(version - 1);
+    }
+    function backToVersion(uint256 toVersion) public ifAdmin{
+       address implementationByVersion = historyImplementation[toVersion];
+       if(implementationByVersion == address(0)) revert ImplementationNotFound(toVersion);
+       upgrade(implementationByVersion);
     }
 }
