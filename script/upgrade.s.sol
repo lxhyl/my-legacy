@@ -7,15 +7,14 @@ import "forge-std/console.sol";
 import {LegacyProxy} from "../src/LegacyProxy.sol";
 import {Legacy} from "../src/Legacy.sol";
 
-// LegacyProxy 0x94022093264FaD8f5c6134f40Ed9674C26b98601
 contract MyLegacyUpgrade is Script {
-
+    address payable MY_LEGACY_PROXY = payable(0xc615627D0E044E9F8b5eaD860EC9E4a94f7829C1);
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         Legacy legacy = new Legacy();
-        LegacyProxy legacyProxy = LegacyProxy(payable(address(0x94022093264FaD8f5c6134f40Ed9674C26b98601)));
-        legacyProxy.upgradeTo(address(legacy));
+        LegacyProxy legacyProxy = LegacyProxy(MY_LEGACY_PROXY);
+        legacyProxy.upgrade(address(legacy));
         vm.stopBroadcast();
     }
 }

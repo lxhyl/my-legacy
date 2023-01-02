@@ -3,7 +3,7 @@
 Protect the property of the original address when the private key or mnemonic word is lost.
 
 
-test contract deploy on https://goerli.etherscan.io/address/0x94022093264fad8f5c6134f40ed9674c26b98601
+test contract deploy on https://goerli.etherscan.io/address/0xc615627D0E044E9F8b5eaD860EC9E4a94f7829C1
 
 
 
