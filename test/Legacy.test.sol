@@ -4,7 +4,15 @@ import "forge-std/console.sol";
 
 import {Base} from "./Base.t.sol";
 import {ILegacy} from "../src/Interfaces/ILegacy.sol";
+
 contract LegactTest is Base{ 
+
+   function testInitSuccess() public {
+      vm.startPrank(alice);
+      ILegacy.Config memory config = ILegacy(legacyProxy).getConfig();
+      assertTrue(config.admin != address(0));
+   }
+
    function testGetApprovaledMaxCoins() public {
       vm.startPrank(alice);
       coin1.approve(legacyProxy, type(uint256).max);
